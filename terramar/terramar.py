@@ -115,26 +115,26 @@ music_init()
 music_play_sound('xxxx_start.mp3')
 
 [first_song, second_song, older] = get_songs('0000')
-if True:
-    music_play_sound('xxxx_question.mp3')
-    io_led(Color.BLUE,True)
-    music_play_song(first_song)
-    io_led(Color.BLUE,False)
-    music_play_sound('xxxx_next_song.mp3')
-    io_led(Color.YELLOW, True);
-    music_play_song(second_song);
-    io_led(Color.YELLOW,False)
-    # music_play_sound('xxxx_press_buttons.mp3');
+music_play_sound('xxxx_question.mp3')
+io_led(Color.BLUE,True)
+music_play_song(first_song)
+io_led(Color.BLUE,False)
+music_play_sound('xxxx_next_song.mp3')
+io_led(Color.YELLOW, True);
+music_play_song(second_song);
+io_led(Color.YELLOW,False)
 
-choice = io_wait_button_pressed('xxxx_answer.mp3')
-io_led(choice,True)
-music_play_sound('xxxx_roll.mp3')
-io_led(choice,False)
+while True:
+    choice = io_wait_button_pressed('xxxx_answer.mp3')
+    io_led(choice,True)
+    music_play_sound('xxxx_roll.mp3')
+    io_led(choice,False)
 
-if choice == 0:
-    print(0)
-elif choice == older:
-    music_play_sound('xxxx_ok.mp3')
-else:
-    music_play_sound('xxxx_ko.mp3')
+    if choice == 0:
+        print(0)
+    elif choice == older:
+        music_play_sound('xxxx_ok.mp3')
+        break
+    else:
+        music_play_sound('xxxx_ko.mp3')
 

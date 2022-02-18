@@ -39,7 +39,7 @@ def get_songs(user_id):
     return [mp3files[first], mp3files[second], older]
 
 def music_init():
-    pygame.mixer.init()
+    pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=2048)
     pygame.mixer.music.set_volume(0.7)
 
 def music_play_sound(sound):
@@ -90,12 +90,16 @@ def io_led(color, on):
     else:
         GPIO.output(pin,GPIO.LOW)
 
-def io_wait_button_pressed():
+def io_wait_button_pressed(sound):
+    pygame.mixer.music.load(join(MP3_PATH,sound))
+    pygame.mixer.music.play()
     while True:
         for i in range(10):
             if GPIO.input(PIN_YELLOW_BUTTON) == GPIO.HIGH:
+                pygame.mixer.music.stop();
                 return Color.YELLOW
             if GPIO.input(PIN_BLUE_BUTTON) == GPIO.HIGH:
+                pygame.mixer.music.stop();
                 return Color.BLUE
             time.sleep(0.1)
         
@@ -122,7 +126,7 @@ if True:
     io_led(Color.YELLOW,False)
     # music_play_sound('xxxx_press_buttons.mp3');
 
-choice = io_wait_button_pressed()
+choice = io_wait_button_pressed('xxxx_answer.mp3')
 io_led(choice,True)
 music_play_sound('xxxx_roll.mp3')
 io_led(choice,False)

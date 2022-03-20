@@ -1,6 +1,6 @@
 # https://murosdeabsenta.com/musica-anos-40/
 
-from common import Color, IoInterface, MP3_PATH
+from common import Color, IoInterface
 from iogpio import IoGPIO
 import sound
 import library

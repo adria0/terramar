@@ -61,74 +61,87 @@ def music_play_song(song):
     pygame.mixer.music.stop();
     pygame.mixer.music.set_volume(fadeout_step * fadeout_dec)
 
-def io_setup():
-    GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
-    GPIO.setup(PIN_YELLOW_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(PIN_BLUE_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(PIN_YELLOW_LED, GPIO.OUT)
-    GPIO.setup(PIN_BLUE_LED, GPIO.OUT)
-    io_led(Color.BLUE,False)
-    io_led(Color.BLUE,False)
-    time.sleep(0.2)
-    io_led(Color.BLUE,True)
-    time.sleep(0.2)
-    io_led(Color.BLUE,False)
-    time.sleep(0.2)
-    io_led(Color.YELLOW,True)
-    time.sleep(0.2)
-    io_led(Color.YELLOW,False)
+class IoInterface:
+    def led(self, color,on):
+        pass
+    def pressed(self, color):
+        pass
 
+class IoGPIO(IoInterface):
+    def __init__(self):
+        GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+        GPIO.setup(PIN_YELLOW_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(PIN_BLUE_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(PIN_YELLOW_LED, GPIO.OUT)
+        GPIO.setup(PIN_BLUE_LED, GPIO.OUT)
+        self.led(Color.BLUE,False)
+        self.led(Color.BLUE,False)
+        time.sleep(0.2)
+        self.led(Color.BLUE,True)
+        time.sleep(0.2)
+        self.led(Color.BLUE,False)
+        time.sleep(0.2)
+        self.led(Color.YELLOW,True)
+        time.sleep(0.2)
+        self.led(Color.YELLOW,False)
+    
+    def led(self, color,on):
+        if color == Color.YELLOW:
+            pin = PIN_YELLOW_LED
+        else:
+            pin = PIN_BLUE_LED
 
-def io_led(color, on):
-    if color == Color.YELLOW:
-        pin = PIN_YELLOW_LED
-    else:
-        pin = PIN_BLUE_LED
+        if on:
+            GPIO.output(pin,GPIO.HIGH)
+        else:
+            GPIO.output(pin,GPIO.LOW)
+    
+    def pressed(self, color):
+        if color == Color.YELLOW:
+            pin = PIN_YELLOW_BUTTON
+        else:
+            pin = PIN_BLUE_BUTTON
+        return GPIO.input(pin) == GPIO.HIGH
 
-    if on:
-        GPIO.output(pin,GPIO.HIGH)
-    else:
-        GPIO.output(pin,GPIO.LOW)
-
-def io_wait_button_pressed(sound):
+def wait_button_pressed(io, sound):
     pygame.mixer.music.load(join(MP3_PATH,sound))
     pygame.mixer.music.play()
     while True:
         for i in range(10):
-            if GPIO.input(PIN_YELLOW_BUTTON) == GPIO.HIGH:
+            if io.pressed(Color.YELLOW) == GPIO.HIGH:
                 pygame.mixer.music.stop();
                 return Color.YELLOW
-            if GPIO.input(PIN_BLUE_BUTTON) == GPIO.HIGH:
+            if io.pressed(Color.BLUE) == GPIO.HIGH:
                 pygame.mixer.music.stop();
                 return Color.BLUE
             time.sleep(0.1)
         
-        io_led(Color.BLUE,True)
-        io_led(Color.YELLOW,True)
+        io.led(Color.BLUE,True)
+        io.led(Color.YELLOW,True)
         time.sleep(0.5)
-        io_led(Color.BLUE,False)
-        io_led(Color.YELLOW,False)
+        io.led(Color.BLUE,False)
+        io.led(Color.YELLOW,False)
 
-# play hello
-io_setup()
+io = IoGPIO()
 music_init() 
 music_play_sound('xxxx_start.mp3')
-
 [first_song, second_song, older] = get_songs('0000')
-music_play_sound('xxxx_question.mp3')
-io_led(Color.BLUE,True)
-music_play_song(first_song)
-io_led(Color.BLUE,False)
-music_play_sound('xxxx_next_song.mp3')
-io_led(Color.YELLOW, True);
-music_play_song(second_song);
-io_led(Color.YELLOW,False)
+
+if False:
+    music_play_sound('xxxx_question.mp3')
+    io.led(Color.BLUE,True)
+    music_play_song(first_song)
+    io.led(Color.BLUE,False)
+    music_play_sound('xxxx_next_song.mp3')
+    io.led(Color.YELLOW, True);
+    music_play_song(second_song);
+    io.led(Color.YELLOW,False)
 
 while True:
-    choice = io_wait_button_pressed('xxxx_answer.mp3')
-    io_led(choice,True)
+    choice = wait_button_pressed(io,'xxxx_answer.mp3')
+    io.led(choice,True)
     music_play_sound('xxxx_roll.mp3')
-    io_led(choice,False)
+    io.led(choice,False)
 
     if choice == 0:
         print(0)

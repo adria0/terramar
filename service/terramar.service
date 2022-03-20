@@ -3,7 +3,7 @@ Description=Terramar Service
 After=multi-user.target
 
 [Service]
-Type=idle
+Type=forking
 ExecStart=/usr/bin/bash /home/pi/terramar/run.sh
 User=pi
 

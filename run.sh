@@ -1,4 +1,4 @@
-# This disconnects programs directly connected to ALSA, blocking pulseaudio.
-# solves the `(snd_pcm_recover) underrun occurred` error
+#!/usr/bin/bash
 aconnect -x
-poetry run python terramar/terramar.py
+cd /home/pi/terramar 
+/home/pi/.poetry/bin/poetry run python terramar/terramar.py

@@ -1,0 +1,11 @@
+[Unit]
+Description=Terramar Service
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/bash /home/pi/terramar/run.sh
+User=pi
+
+[Install]
+WantedBy=multi-user.target

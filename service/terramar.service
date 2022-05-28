@@ -6,6 +6,7 @@ After=multi-user.target
 Type=forking
 ExecStart=/usr/bin/bash /home/pi/terramar/run.sh
 User=pi
+TimeoutSec=infinity
 
 [Install]
 WantedBy=multi-user.target

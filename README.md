@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/adria0/terramar/1caebe358dae23ba601c5f9c8b106634c92dd4a2/device.jpg" width="200" height="200">
 
-Terramar is a small [musical theraphy](https://en.wikipedia.org/wiki/Music_therapy) device for elderly people to help them to recall memories using songs. It uses raspberry a [raspberry](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/) and python. It's a joint effort with [Ateneu de fabricació de les corts](https://ajuntament.barcelona.cat/lescorts/ca/coneixeu-el-districte/lateneu-de-fabricacio-digital).
+Terramar is a small [musical theraphy](https://en.wikipedia.org/wiki/Music_therapy) device for elderly people to help them to recall memories using songs. It uses a [raspberry](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/) and python. It's a joint effort with [Ateneu de fabricació de les corts](https://ajuntament.barcelona.cat/lescorts/ca/coneixeu-el-districte/lateneu-de-fabricacio-digital).
 
 
 ## Functionality

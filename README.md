@@ -7,6 +7,6 @@ poetry  install
 sudo mkdir /mnt/sda2
 sudo vi /etc/fstab
 # add this line
-# /dev/sda2	/mnt/sda2	vfat	defaults	0	2
+# /dev/sda2	/mnt/sda2	vfat	defaults,nofail	0	0
 sudo mount -a 
 ```
